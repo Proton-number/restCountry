@@ -12,7 +12,7 @@ function App() {
   const [isLoading, setIsLoading] = useState(true);
   return (
     <>
-      <Stack spacing={7}>
+      <Stack >
         <Top mode={mode} setMode={setMode} />
         <Router>
           <Routes>

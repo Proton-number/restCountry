@@ -3,19 +3,18 @@ import { Box, Typography, Stack } from "@mui/material";
 import WestOutlinedIcon from "@mui/icons-material/WestOutlined";
 import { Link, useParams } from "react-router-dom";
 import axios from "axios";
+import { motion } from "framer-motion";
 
 function Info({ mode, isLoading, setIsLoading }) {
   const [country, setCountry] = useState([]);
   const { id } = useParams();
-
-
 
   useEffect(() => {
     axios
       .get(`https://restcountries.com/v3.1/name/${id}`)
       .then((res) => res.data)
       .then((data) => {
-        console.log(data[0]);
+        // console.log(data[0]);
         setCountry(data[0]); // Assuming the response is an array containing a single country object
         setIsLoading(false);
       });
@@ -23,8 +22,17 @@ function Info({ mode, isLoading, setIsLoading }) {
 
   if (isLoading) {
     return (
-      <div class="spinner"></div>
-    )
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100dvh",
+        }}
+      >
+        <Box className="spinner"></Box>
+      </Box>
+    );
   }
 
   return (
@@ -33,6 +41,10 @@ function Info({ mode, isLoading, setIsLoading }) {
         padding: { sm: "30px" },
         backgroundColor: mode ? "hsl(201, 24%, 21%)" : "white",
         color: mode ? "white" : "black",
+        height: "100vh",
+        display: "flex",
+        justifyContent: "center",
+        position: "relative",
       }}
     >
       <Link to={"/"} style={{ textDecoration: "none" }}>
@@ -40,6 +52,14 @@ function Info({ mode, isLoading, setIsLoading }) {
           spacing={1}
           direction="row"
           sx={{
+            position: "absolute",
+            top: {
+              xs: "76px",
+              lg: "100px",
+            },
+            left: {
+              xs: "20px",
+            },
             textDecoration: "none",
             alignItems: "center",
             padding: "12px",
@@ -60,14 +80,21 @@ function Info({ mode, isLoading, setIsLoading }) {
       </Link>
 
       <Stack
-        spacing={{ xs: 12, lg: 20 }}
+        component={motion.div}
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1 }}
+        spacing={{ xs: 2, sm: 8, lg: 20 }}
         direction={{ xs: "column", lg: "row" }}
-        sx={{ justifyContent: "center", height: "80vh", alignItems: "center" }}
+        sx={{ justifyContent: "center", alignItems: "center" }}
       >
         <Box
           component="img"
           src={country?.flags?.png}
-          sx={{ width: "500px", height: "400px" }}
+          sx={{
+            width: { xs: "280px", sm: "380px", lg: "500px" },
+            height: { xs: "170px", sm: "300px", lg: "400px" },
+          }}
         />
         <Stack spacing={{ xs: 3, sm: 2, lg: 4 }}>
           <Typography variant="h3">{country?.name?.common}</Typography>

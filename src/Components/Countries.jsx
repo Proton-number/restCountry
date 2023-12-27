@@ -23,7 +23,7 @@ function Countries({
   setSearchedCountry,
   mode,
   isLoading,
-  setIsLoading
+  setIsLoading,
 }) {
   const [anchorEl1, setAnchorEl1] = useState(null);
   const [selectedContinent, setSelectedContinent] = useState(null);
@@ -91,10 +91,18 @@ function Countries({
 
   if (isLoading) {
     return (
-      <div className="spinner"></div>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100dvh",
+        }}
+      >
+        <Box className="spinner"></Box>
+      </Box>
     );
   }
-
 
   const handleContinentSelect = (continent) => {
     setSelectedContinent(continent);
@@ -104,16 +112,21 @@ function Countries({
   return (
     <Box
       sx={{
+        marginTop: {
+          xs: "56px",
+          sm: "44px",
+          lg: "50px",
+        },
         backgroundColor: mode ? "hsl(201, 24%, 21%)" : "white",
         color: mode ? "white" : "black",
       }}
     >
       <Stack
         direction={{ sm: "row" }}
-        spacing={{ xs: 4, sm: 18, lg: 124 }}
+        spacing={{ xs: 4, sm: 30, lg: 124 }}
         sx={{
           alignItems: "center",
-          padding: { xs: "24px", sm: "90px", lg: "50px" },
+          padding: { xs: "24px", sm: "50px", lg: "50px" },
         }}
       >
         <TextField
@@ -197,7 +210,12 @@ function Countries({
         </Stack>
       </Stack>
 
-      <Box>
+      <Box
+        component={motion.div}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1.2 }}
+      >
         <Grid
           spacing={4}
           container
@@ -224,6 +242,9 @@ function Countries({
                   style={{ textDecoration: "none" }}
                 >
                   <Paper
+                    component={motion.div}
+                    whileHover={{ scale: 1.05 }}
+                    transition={{ duration: .9 }}
                     sx={{
                       padding: {
                         xs: 2.2,
